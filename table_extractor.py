@@ -35,13 +35,13 @@ def getGrid(table):
 
     #Polaczenie linii
     combined_lines = cv2.addWeighted(detect_horizontal, 0.5, detect_vertical, 0.5, 0.0)
-    # cv2.imshow("c",combined_lines)
-    # cv2.waitKey(0)
+    cv2.imshow("c",combined_lines)
+    cv2.waitKey(0)
     grid, _ = cv2.findContours(combined_lines, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
     return grid
 
 def extractTable():
-    image_path = 'path'
+    image_path = 'C:/Users/adria/Desktop/table.png'
 
     image = cv2.imread(image_path)
     image = preProcess(image)
@@ -49,7 +49,7 @@ def extractTable():
     edges = cv2.Canny(image, 50, 255)
     x, y, w, h = cv2.boundingRect(edges)
     table = image[y:y+h, x:x+w]
-    cv2.imwrite('path', table)
+    cv2.imwrite('C:/Users/adria/Desktop/tableo.png', table)
 
     contours = getGrid(table)
 
@@ -74,6 +74,6 @@ def extractTable():
         table_list.append([row[x] if x in row else '' for x in sorted(row.keys())])
 
     df = pd.DataFrame(table_list)
-    df.to_excel('path.xlsx', index=False, header=False)
+    df.to_excel('C:/Users/adria/Desktop/path.xlsx', index=False, header=False)
 
 extractTable()
