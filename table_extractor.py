@@ -39,7 +39,7 @@ def detectTable(image):
     v_lines = cv2.erode(image, v_kernel, iterations=2)
     v_lines = cv2.dilate(v_lines, v_kernel, iterations=2)
 
-    #Połączenie linii
+    #Polaczenie linii
     combined_lines = cv2.addWeighted(h_lines, 0.5, v_lines, 0.5, 0.0)
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     combined_lines = cv2.dilate(combined_lines, kernel, iterations=1)
@@ -64,6 +64,9 @@ def detectTable(image):
 
 def extractTable(input_path, output_path, iter):
     image = cv2.imread(input_path)
+    if image is None:
+        print(f"Blad wczytywania pliku: {input_path}")
+        return
     image = preProcess(image)
     cv2.imshow("combined_lines",image)
     cv2.waitKey(0)
